@@ -102,12 +102,247 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the ChatGPT Clone backend API thoroughly including all endpoints, MySQL database operations, and OpenAI GPT-4.1 integration"
+user_problem_statement: "Transform app into Adult TikTok platform with user authentication, content upload/viewing, likes/comments, subscriptions, and admin ChatGPT panel. MySQL database on mgielen.zapto.org. File storage at /mnt/bigdisk/images/. Scrapers must work."
 
 backend:
-  - task: "GET /api/conversations endpoint"
+  - task: "POST /api/auth/register endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Implemented user registration with JWT token. Hashes password with bcrypt. Returns access_token and user profile. Needs testing."
+
+  - task: "POST /api/auth/login endpoint"
     implemented: true
     working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "Successfully tested locally with curl. Returns JWT token for admin/admin123. Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+  - task: "GET /api/auth/me endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Returns current user profile from JWT token. Requires Authorization header with Bearer token. Needs testing."
+
+  - task: "GET /api/posts/feed endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Fetches public posts from MySQL database with user info. Supports pagination (skip/limit). Returns post data with file URLs. Needs testing."
+
+  - task: "POST /api/posts/upload endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Handles file upload (images/videos) with multipart/form-data. Saves to /mnt/bigdisk/images/{username}/posts/. Creates post in database. Requires authentication. Needs testing."
+
+  - task: "POST /api/posts/{post_id}/like endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Toggles like/unlike for a post. Updates likes_count. Requires authentication. Needs testing."
+
+  - task: "GET /api/posts/{post_id}/comments endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Fetches comments for a post with user info. Supports pagination. Needs testing."
+
+  - task: "POST /api/posts/{post_id}/comments endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Adds comment to a post. Updates comments_count. Requires authentication. Needs testing."
+
+  - task: "GET /api/users/{username} endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Fetches user profile by username. Returns full user data. Needs testing."
+
+  - task: "POST /api/users/{user_id}/follow endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Toggles follow/unfollow for a user. Updates follower/following counts. Requires authentication. Needs testing."
+
+  - task: "GET /api/media/{username}/{message_type}/{media_type}/{filename} endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Serves media files from /mnt/bigdisk/images/. Returns FileResponse. Needs testing with actual uploaded files."
+
+  - task: "MySQL database connection and schema"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/database_mysql.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Database initialized with tables: users, posts, subscriptions, likes, comments, follows, admin_scrapers_log. Connection pool created. Host: mgielen.zapto.org. Database: adult_tiktok. Needs testing."
+
+  - task: "ChatGPT Admin API endpoints (legacy)"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "low"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "All ChatGPT endpoints moved to /api/chatgpt/* prefix. Kept for admin panel. Uses MongoDB. Needs testing."
+
+frontend:
+  - task: "Authentication flow (Login/Register)"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/AuthScreen.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "AuthScreen with login/register forms. AuthContext provides login, register, logout functions. JWT token stored in localStorage. Needs testing."
+
+  - task: "Video Feed (Home)"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/VideoFeed.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "TikTok-style vertical scrolling feed. Fetches posts from API. Falls back to mock data if no posts. Handles like/follow actions. Needs testing."
+
+  - task: "Upload Content"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Upload.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "File upload component for images/videos. Preview before upload. Caption and subscribers_only options. Uses FormData for multipart upload. Needs testing."
+
+  - task: "Admin ChatGPT Panel"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/AdminChatGPT.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Full ChatGPT interface integrated as admin panel. Visible only to admin users. Uses /api/chatgpt/* endpoints. Needs testing."
+
+  - task: "Bottom Navigation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/BottomNav.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Tab navigation: Home, Discover, Upload, Admin (if admin), Profile. Highlights active tab. Needs testing."
+
+metadata:
+  created_by: "main_agent"
+  version: "2.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "POST /api/auth/register endpoint"
+    - "POST /api/auth/login endpoint"
+    - "GET /api/auth/me endpoint"
+    - "GET /api/posts/feed endpoint"
+    - "POST /api/posts/upload endpoint"
+    - "MySQL database connection and schema"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+    - agent: "main"
+      message: "Completed initial implementation of Adult TikTok platform. Transformed from ChatGPT clone. Key features: authentication with JWT, content upload/feed, likes/comments/follows, MySQL database on mgielen.zapto.org, file storage at /mnt/bigdisk/images/, admin ChatGPT panel. Test users created: admin/admin123, creator1/creator123, user1/user123. Backend tested locally with curl - login working. Ready for comprehensive backend testing. Frontend compiled without errors but needs testing."
     file: "/app/backend/routes/chat_routes.py"
     stuck_count: 0
     priority: "high"
