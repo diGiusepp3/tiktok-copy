@@ -1,70 +1,143 @@
-/* App-specific styles */
-.App {
-    min-height: 100vh;
-    background-color: #050505;
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+
+:root {
+  --primary-cyan: #00e5ff;
+  --neon-blue: #0af;
+  --dark-bg: #050505;
+  --card-bg: #0a0a0a;
+  --border-color: #1a1a1a;
 }
 
-/* Ensure full height */
-html, body, #root {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Terminal cursor animation */
-@keyframes terminalBlink {
-    0%, 49% {
-        opacity: 1;
-    }
-    50%, 100% {
-        opacity: 0;
-    }
+body {
+  background-color: var(--dark-bg);
+  color: #e0e0e0;
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  overflow: hidden;
 }
 
-.terminal-cursor {
-    animation: terminalBlink 1s step-end infinite;
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  overflow: hidden;
 }
 
-/* Scanline effect (optional subtle background) */
-.scanlines::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        rgba(18, 16, 16, 0) 50%,
-        rgba(0, 0, 0, 0.1) 50%
-    );
-    background-size: 100% 4px;
-    pointer-events: none;
-    opacity: 0.1;
+.main-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
 }
 
-/* Highlight selection */
-::selection {
-    background: rgba(0, 229, 255, 0.3);
-    color: #fff;
+/* Neon text effect */
+.neon-text {
+  color: var(--primary-cyan);
+  text-shadow: 
+    0 0 5px var(--primary-cyan),
+    0 0 10px var(--primary-cyan),
+    0 0 20px var(--primary-cyan);
 }
 
-::-moz-selection {
-    background: rgba(0, 229, 255, 0.3);
-    color: #fff;
+/* Typing cursor animation */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
 
-/* Focus states */
-button:focus-visible,
-a:focus-visible {
-    outline: 1px solid #00E5FF;
-    outline-offset: 2px;
+.typing-cursor {
+  animation: blink 1s step-start infinite;
 }
 
-/* Textarea auto-resize behavior */
-textarea {
-    overflow-y: hidden;
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-textarea:focus {
-    box-shadow: none !important;
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-cyan);
+}
+
+/* Custom styles for dark theme */
+.bg-card {
+  background-color: var(--card-bg);
+}
+
+.border-border {
+  border-color: var(--border-color);
+}
+
+.text-primary {
+  color: var(--primary-cyan);
+}
+
+.bg-primary {
+  background-color: var(--primary-cyan);
+  color: #000;
+}
+
+.bg-secondary {
+  background-color: #1a1a1a;
+}
+
+.text-secondary-foreground {
+  color: #e0e0e0;
+}
+
+.bg-input {
+  background-color: #0f0f0f;
+}
+
+.text-muted-foreground {
+  color: #666;
+}
+
+.bg-background {
+  background-color: var(--dark-bg);
+}
+
+.text-foreground {
+  color: #e0e0e0;
+}
+
+.text-accent {
+  color: #ff2c55;
+}
+
+/* Button hover effects */
+button:hover {
+  opacity: 0.9;
+  transition: all 0.2s ease;
 }
