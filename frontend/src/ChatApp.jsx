@@ -53,20 +53,25 @@ const ChatApp = () => {
   };
 
   // Handle new chat
-  const handleNewChat = () => {
-    const newConversation = {
-      id: `new-${Date.now()}`,
-      title: 'New chat',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
-    setConversations([newConversation, ...conversations]);
-    setActiveConversation(newConversation);
-    setMessages([]);
-    toast({
-      title: 'New chat created',
-      description: 'Start a new conversation'
-    });
+  const handleNewChat = async () => {
+    try {
+      const newConversation = await conversationAPI.create('New chat');
+      setConversations([newConversation, ...conversations]);
+      setActiveConversation(newConversation);
+      setMessages([]);
+      
+      toast({
+        title: 'New chat created',
+        description: 'Start a new conversation'
+      });
+    } catch (error) {
+      console.error('Error creating conversation:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to create new chat',
+        variant: 'destructive'
+      });
+    }
   };
 
   // Handle conversation selection
