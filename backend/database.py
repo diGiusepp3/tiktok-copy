@@ -15,18 +15,8 @@ MYSQL_CONFIG = {
     'database': 'chatgpt_clone'
 }
 
-# Create connection pool
-try:
-    connection_pool = pooling.MySQLConnectionPool(
-        pool_name="chatgpt_pool",
-        pool_size=5,
-        pool_reset_session=True,
-        **MYSQL_CONFIG
-    )
-    logger.info("MySQL connection pool created successfully")
-except mysql.connector.Error as err:
-    logger.error(f"Error creating connection pool: {err}")
-    connection_pool = None
+# Connection pool will be created after database initialization
+connection_pool = None
 
 @contextmanager
 def get_db_connection():
