@@ -81,24 +81,35 @@ const ChatApp = () => {
   };
 
   // Handle delete conversation
-  const handleDeleteConversation = (conversationId) => {
-    const updatedConversations = conversations.filter(c => c.id !== conversationId);
-    setConversations(updatedConversations);
-    
-    if (activeConversation?.id === conversationId) {
-      if (updatedConversations.length > 0) {
-        setActiveConversation(updatedConversations[0]);
-        setMessages(mockMessages[updatedConversations[0].id] || []);
-      } else {
-        setActiveConversation(null);
-        setMessages([]);
+  const handleDeleteConversation = async (conversationId) => {
+    try {
+      await conversationAPI.delete(conversationId);
+      
+      const updatedConversations = conversations.filter(c => c.id !== conversationId);
+      setConversations(updatedConversations);
+      
+      if (activeConversation?.id === conversationId) {
+        if (updatedConversations.length > 0) {
+          setActiveConversation(updatedConversations[0]);
+          await loadMessages(updatedConversations[0].id);
+        } else {
+          setActiveConversation(null);
+          setMessages([]);
+        }
       }
+      
+      toast({
+        title: 'Conversation deleted',
+        description: 'The conversation has been removed'
+      });
+    } catch (error) {
+      console.error('Error deleting conversation:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to delete conversation',
+        variant: 'destructive'
+      });
     }
-    
-    toast({
-      title: 'Conversation deleted',
-      description: 'The conversation has been removed'
-    });
   };
 
   // Handle send message
