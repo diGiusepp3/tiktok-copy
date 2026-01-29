@@ -34,9 +34,28 @@ db_config = {
 
 connection_pool = None
 
+def ensure_database_exists():
+    """Create database if it doesn't exist"""
+    try:
+        conn = mysql.connector.connect(
+            host=db_config['host'],
+            port=db_config['port'],
+            user=db_config['user'],
+            password=db_config['password']
+        )
+        cursor = conn.cursor()
+        cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_config['database']}")
+        conn.commit()
+        cursor.close()
+        conn.close()
+        logger.info(f"Database '{db_config['database']}' ensured")
+    except mysql.connector.Error as err:
+        logger.error(f"Error creating database: {err}")
+
 def get_db_connection():
     global connection_pool
     if connection_pool is None:
+        ensure_database_exists()
         try:
             connection_pool = pooling.MySQLConnectionPool(
                 pool_name="clone_pool",
