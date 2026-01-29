@@ -114,60 +114,57 @@ const ChatApp = () => {
 
   // Handle send message
   const handleSendMessage = async (content) => {
-    if (!activeConversation) {
-      // Create new conversation if none exists
-      const newConversation = {
-        id: `new-${Date.now()}`,
-        title: content.slice(0, 30) + (content.length > 30 ? '...' : ''),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
-      setConversations([newConversation, ...conversations]);
-      setActiveConversation(newConversation);
+    let currentConversation = activeConversation;
+    
+    // Create new conversation if none exists
+    if (!currentConversation) {
+      try {
+        currentConversation = await conversationAPI.create('New chat');
+        setConversations([currentConversation, ...conversations]);
+        setActiveConversation(currentConversation);
+      } catch (error) {
+        toast({
+          title: 'Error',
+          description: 'Failed to create conversation',
+          variant: 'destructive'
+        });
+        return;
+      }
     }
 
-    // Add user message
-    const userMessage = {
-      id: `msg-${Date.now()}`,
-      conversation_id: activeConversation?.id,
+    // Add user message to UI immediately for better UX
+    const tempUserMessage = {
+      id: `temp-${Date.now()}`,
+      conversation_id: currentConversation.id,
       role: 'user',
       content,
       created_at: new Date().toISOString()
     };
 
-    setMessages([...messages, userMessage]);
+    setMessages([...messages, tempUserMessage]);
     setIsLoading(true);
 
     try {
-      // Generate mock AI response
-      const aiResponse = await generateMockResponse(content);
+      // Send message and get AI response
+      const response = await conversationAPI.sendMessage(currentConversation.id, content);
       
-      const assistantMessage = {
-        id: `msg-${Date.now()}-ai`,
-        conversation_id: activeConversation?.id,
-        role: 'assistant',
-        content: aiResponse,
-        created_at: new Date().toISOString()
-      };
-
-      setMessages(prev => [...prev, assistantMessage]);
+      // Replace temp message with actual messages from backend
+      setMessages(prev => {
+        const filtered = prev.filter(m => m.id !== tempUserMessage.id);
+        return [...filtered, response.user_message, response.assistant_message];
+      });
       
-      // Update conversation title if it's a new chat
-      if (activeConversation && activeConversation.title === 'New chat') {
-        const updatedConversation = {
-          ...activeConversation,
-          title: content.slice(0, 30) + (content.length > 30 ? '...' : ''),
-          updated_at: new Date().toISOString()
-        };
-        setActiveConversation(updatedConversation);
-        setConversations(conversations.map(c => 
-          c.id === activeConversation.id ? updatedConversation : c
-        ));
+      // Update conversation in list if title changed
+      if (currentConversation.title === 'New chat') {
+        await loadConversations();
       }
     } catch (error) {
+      console.error('Error sending message:', error);
+      // Remove temp message on error
+      setMessages(messages);
       toast({
         title: 'Error',
-        description: 'Failed to get response. Please try again.',
+        description: 'Failed to send message. Please try again.',
         variant: 'destructive'
       });
     } finally {
