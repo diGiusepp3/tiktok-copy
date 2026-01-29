@@ -1,4 +1,4 @@
-# Repository Guidelines
+# Repository Guidelines (Adult / NSFW Platform)
 
 ## Project Structure & Module Organization
 - `backend/` hosts the FastAPI service, Pydantic models, and MongoDB access layers; configuration is driven by `backend/.env`. Run backend code from this directory (e.g., `uvicorn backend.server:app --reload` from the repo root).
@@ -37,3 +37,8 @@
 - `scrapers/OSINT/usernames` aggregates username-focused lookups for later linking back to media sources; treat its outputs as starting points for other scrapers.
 - `scrapers/mediaCollector/media_collector.py` is a general-purpose collector that crawls a page (e.g., the provided FikFap landing) to enumerate `<img>`, `<video>`, `<source>`, inline styles, and iframe assets, writes a `media_manifest.json`, and can optionally download every discovered file with concurrent workers.
 - Record new scraping commands in AGENTS when you add another media workflow and reference the entry point plus default CLI flags.
+
+## Adult Workflows & Compliance
+- This is an adult/NSFW platform: assume explicit content, enforce age/consent checks, and keep any harvested data in encrypted, access-controlled storage.
+- Always honor site ToS and age gates; record required auth cookies/headers in tool notes (e.g., FikFap, nudogram) and avoid scraping minors or non-consensual content.
+- Document new adult scrapers the same way as above (path, entry command, auth needs, proxy expectations) so contributors understand risks and setup quickly.
