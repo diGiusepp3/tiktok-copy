@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Users, PlusSquare, MessageSquare, User } from 'lucide-react';
+import { Home, Compass, PlusSquare, MessageSquare, User } from 'lucide-react';
 import './BottomNav.css';
 
 const BottomNav = ({ activeTab, setActiveTab }) => {
@@ -17,8 +17,8 @@ const BottomNav = ({ activeTab, setActiveTab }) => {
         className={`nav-item ${activeTab === 'following' ? 'active' : ''}`}
         onClick={() => setActiveTab('following')}
       >
-        <Users size={28} strokeWidth={activeTab === 'following' ? 2.5 : 2} />
-        <span className="nav-label">Friends</span>
+        <Compass size={28} strokeWidth={activeTab === 'following' ? 2.5 : 2} />
+        <span className="nav-label">Discover</span>
       </button>
 
       <button 
