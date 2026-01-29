@@ -174,37 +174,31 @@ const ChatApp = () => {
 
   // Handle regenerate
   const handleRegenerate = async (messageId) => {
+    if (!activeConversation) return;
+
     const messageIndex = messages.findIndex(m => m.id === messageId);
     if (messageIndex === -1) return;
 
-    // Get the previous user message
-    const userMessage = messages[messageIndex - 1];
-    if (!userMessage || userMessage.role !== 'user') return;
-
-    // Remove the assistant message
+    // Remove the assistant message from UI
     const updatedMessages = messages.slice(0, messageIndex);
     setMessages(updatedMessages);
     setIsLoading(true);
 
     try {
-      // Generate new mock response
-      const aiResponse = await generateMockResponse(userMessage.content);
+      // Call regenerate API
+      const newMessage = await conversationAPI.regenerate(activeConversation.id, messageId);
       
-      const assistantMessage = {
-        id: `msg-${Date.now()}-regen`,
-        conversation_id: activeConversation?.id,
-        role: 'assistant',
-        content: aiResponse,
-        created_at: new Date().toISOString()
-      };
-
-      setMessages([...updatedMessages, assistantMessage]);
+      // Add new response to messages
+      setMessages([...updatedMessages, newMessage]);
       
       toast({
         title: 'Response regenerated',
         description: 'A new response has been generated'
       });
     } catch (error) {
+      console.error('Error regenerating response:', error);
+      // Restore original messages on error
+      setMessages(messages);
       toast({
         title: 'Error',
         description: 'Failed to regenerate response. Please try again.',
