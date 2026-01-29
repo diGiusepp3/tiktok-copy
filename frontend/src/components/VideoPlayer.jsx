@@ -22,12 +22,24 @@ const VideoPlayer = ({ video, isActive, onLike, onFollow }) => {
     return count.toString();
   };
 
+  // Handle both API data and mock data
+  const username = video.username || video.user_id;
+  const thumbnailUrl = video.thumbnail_url || video.thumbnailUrl;
+  const userAvatar = video.user_avatar || video.userAvatar || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + username;
+  const likes = video.likes_count || video.likes || 0;
+  const comments = video.comments_count || video.comments || 0;
+  const shares = video.shares_count || video.shares || 0;
+  const isLiked = video.is_liked || video.isLiked || false;
+  const isFollowing = video.is_following || video.isFollowing || false;
+  const isVerified = video.is_verified || video.verified || false;
+  const caption = video.caption || '';
+
   return (
     <div className="video-container">
       {/* Thumbnail Image (placeholder for video) */}
       <div 
         className="video-thumbnail"
-        style={{ backgroundImage: `url(${video.thumbnailUrl})` }}
+        style={{ backgroundImage: `url(${thumbnailUrl})` }}
         onClick={togglePlayPause}
       >
         {!isPlaying && (
@@ -48,8 +60,8 @@ const VideoPlayer = ({ video, isActive, onLike, onFollow }) => {
         {/* Profile Avatar */}
         <div className="sidebar-item">
           <div className="profile-avatar-container">
-            <img src={video.userAvatar} alt={video.username} className="profile-avatar" />
-            {!video.isFollowing && (
+            <img src={userAvatar} alt={username} className="profile-avatar" />
+            {!isFollowing && (
               <button className="follow-button" onClick={() => onFollow(video.id)}>
                 +
               </button>
@@ -59,14 +71,14 @@ const VideoPlayer = ({ video, isActive, onLike, onFollow }) => {
 
         {/* Like Button */}
         <div className="sidebar-item" onClick={() => onLike(video.id)}>
-          <div className={`action-button ${video.isLiked ? 'liked' : ''}`}>
+          <div className={`action-button ${isLiked ? 'liked' : ''}`}>
             <Heart 
               className="action-icon" 
-              fill={video.isLiked ? '#FE2C55' : 'none'}
-              stroke={video.isLiked ? '#FE2C55' : 'white'}
+              fill={isLiked ? '#FE2C55' : 'none'}
+              stroke={isLiked ? '#FE2C55' : 'white'}
             />
           </div>
-          <span className="action-count">{formatCount(video.likes)}</span>
+          <span className="action-count">{formatCount(likes)}</span>
         </div>
 
         {/* Comment Button */}
@@ -74,7 +86,7 @@ const VideoPlayer = ({ video, isActive, onLike, onFollow }) => {
           <div className="action-button">
             <MessageCircle className="action-icon" />
           </div>
-          <span className="action-count">{formatCount(video.comments)}</span>
+          <span className="action-count">{formatCount(comments)}</span>
         </div>
 
         {/* Share Button */}
@@ -82,7 +94,7 @@ const VideoPlayer = ({ video, isActive, onLike, onFollow }) => {
           <div className="action-button">
             <Share2 className="action-icon" />
           </div>
-          <span className="action-count">{formatCount(video.shares)}</span>
+          <span className="action-count">{formatCount(shares)}</span>
         </div>
 
         {/* Music Disc */}
@@ -96,15 +108,15 @@ const VideoPlayer = ({ video, isActive, onLike, onFollow }) => {
       {/* Bottom info overlay */}
       <div className="video-info">
         <div className="username-container">
-          <span className="username">@{video.username}</span>
-          {video.verified && (
+          <span className="username">@{username}</span>
+          {isVerified && (
             <CheckCircle className="verified-badge" size={16} fill="#20D5EC" stroke="white" />
           )}
         </div>
-        <p className="caption">{video.caption}</p>
+        <p className="caption">{caption}</p>
         <div className="music-info">
           <Music size={14} className="music-note" />
-          <span className="music-text">original sound - {video.username}</span>
+          <span className="music-text">original sound - {username}</span>
         </div>
       </div>
 
