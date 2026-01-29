@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ChatArea from './components/ChatArea';
-import { mockConversations, mockMessages, generateMockResponse } from './data/mockData';
+import { conversationAPI } from './api/chatApi';
 import { toast } from './hooks/use-toast';
 
 const ChatApp = () => {
