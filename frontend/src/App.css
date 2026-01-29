@@ -1,90 +1,70 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* App-specific styles */
 .App {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: #000;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    background-color: #050505;
 }
 
-/* Coming Soon Pages */
-.coming-soon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: #000;
-  color: #fff;
-  padding: 20px;
+/* Ensure full height */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-.coming-soon h2 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, #00F2EA 0%, #FF0050 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Terminal cursor animation */
+@keyframes terminalBlink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0;
+    }
 }
 
-.coming-soon p {
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 24px;
+.terminal-cursor {
+    animation: terminalBlink 1s step-end infinite;
 }
 
-.back-btn {
-  padding: 12px 32px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
+/* Scanline effect (optional subtle background) */
+.scanlines::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%,
+        rgba(0, 0, 0, 0.1) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    opacity: 0.1;
 }
 
-.back-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+/* Highlight selection */
+::selection {
+    background: rgba(0, 229, 255, 0.3);
+    color: #fff;
 }
 
-/* Disable text selection on interactive elements */
-button,
-.action-button,
-.nav-item {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-tap-highlight-color: transparent;
+::-moz-selection {
+    background: rgba(0, 229, 255, 0.3);
+    color: #fff;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* Focus states */
+button:focus-visible,
+a:focus-visible {
+    outline: 1px solid #00E5FF;
+    outline-offset: 2px;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-*::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+/* Textarea auto-resize behavior */
+textarea {
+    overflow-y: hidden;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-* {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+textarea:focus {
+    box-shadow: none !important;
 }

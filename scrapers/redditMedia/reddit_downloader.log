@@ -1,0 +1,4 @@
+2026-01-29 03:42:07,372 - INFO - Starting download for u/oheytherehellohi
+2026-01-29 03:42:07,373 - INFO - Download directory: downloads/oheytherehellohi_20260129_034207
+2026-01-29 03:42:07,963 - ERROR - Error fetching submissions for u/oheytherehellohi: received 401 HTTP response
+2026-01-29 03:42:07,967 - WARNING - No submissions found for u/oheytherehellohi
