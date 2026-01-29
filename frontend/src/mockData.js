@@ -1,8 +1,10 @@
 // Mock video data for TikTok clone
+// Note: Using placeholder images until actual video upload is implemented
 export const mockVideos = [
   {
     id: '1',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-water-1164-large.mp4',
+    videoUrl: '',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=700&fit=crop',
     username: 'creative_artist',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=1',
     caption: 'Amazing sunset vibes 🌅 #nature #sunset #peaceful',
@@ -15,7 +17,8 @@ export const mockVideos = [
   },
   {
     id: '2',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-1232-large.mp4',
+    videoUrl: '',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=700&fit=crop',
     username: 'dance_master',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=2',
     caption: 'New dance challenge! Can you do this? 💃 #dance #trending #viral',
@@ -28,7 +31,8 @@ export const mockVideos = [
   },
   {
     id: '3',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-food-being-prepared-4255-large.mp4',
+    videoUrl: '',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&h=700&fit=crop',
     username: 'foodie_heaven',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=3',
     caption: 'Delicious recipe you must try! 🍕 #food #cooking #recipe',
@@ -41,7 +45,8 @@ export const mockVideos = [
   },
   {
     id: '4',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
+    videoUrl: '',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=700&fit=crop',
     username: 'travel_vibes',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=4',
     caption: 'Paradise found! 🏝️ #travel #adventure #paradise',
@@ -54,7 +59,8 @@ export const mockVideos = [
   },
   {
     id: '5',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-under-multicolored-lights-1237-large.mp4',
+    videoUrl: '',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=400&h=700&fit=crop',
     username: 'comedy_king',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=5',
     caption: 'Wait for it... 😂 #funny #comedy #viral',
@@ -67,7 +73,8 @@ export const mockVideos = [
   },
   {
     id: '6',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-going-down-a-curved-highway-down-a-mountain-range-50632-large.mp4',
+    videoUrl: '',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=700&fit=crop',
     username: 'car_enthusiast',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=6',
     caption: 'Dream car goals 🚗 #cars #luxury #speed',
