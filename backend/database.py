@@ -36,6 +36,7 @@ def get_db_connection():
 
 def init_database():
     """Initialize database and create tables if they don't exist"""
+    global connection_pool
     try:
         # First, connect without database to create it
         temp_config = MYSQL_CONFIG.copy()
@@ -74,6 +75,14 @@ def init_database():
         connection.commit()
         cursor.close()
         connection.close()
+        
+        # Now create connection pool
+        connection_pool = pooling.MySQLConnectionPool(
+            pool_name="chatgpt_pool",
+            pool_size=5,
+            pool_reset_session=True,
+            **MYSQL_CONFIG
+        )
         
         logger.info("Database initialized successfully")
         return True
