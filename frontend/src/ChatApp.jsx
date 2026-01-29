@@ -14,6 +14,7 @@ const ChatApp = () => {
   // Load conversations on mount
   useEffect(() => {
     loadConversations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Load conversations from API
