@@ -287,14 +287,27 @@ class BackendTester:
             response = self.session.delete(f"{self.base_url}/conversations/{self.test_conversation_id}")
             
             if response.status_code == 200:
-                # Verify conversation is deleted by trying to get its messages
-                verify_response = self.session.get(f"{self.base_url}/conversations/{self.test_conversation_id}/messages")
+                # Verify conversation is deleted by checking if it's in the conversations list
+                verify_response = self.session.get(f"{self.base_url}/conversations")
                 
-                if verify_response.status_code == 500:  # Should fail because conversation doesn't exist
-                    self.log_result("DELETE /api/conversations/{id}", True, "Conversation and messages deleted successfully (cascade delete working)")
-                    return True
+                if verify_response.status_code == 200:
+                    conversations = verify_response.json()
+                    deleted_conv = next((c for c in conversations if c["id"] == self.test_conversation_id), None)
+                    
+                    if deleted_conv is None:
+                        # Also check that messages are empty
+                        msg_response = self.session.get(f"{self.base_url}/conversations/{self.test_conversation_id}/messages")
+                        if msg_response.status_code == 200 and msg_response.json() == []:
+                            self.log_result("DELETE /api/conversations/{id}", True, "Conversation and messages deleted successfully (cascade delete working)")
+                            return True
+                        else:
+                            self.log_result("DELETE /api/conversations/{id}", False, "Messages not properly deleted")
+                            return False
+                    else:
+                        self.log_result("DELETE /api/conversations/{id}", False, "Conversation still exists in list")
+                        return False
                 else:
-                    self.log_result("DELETE /api/conversations/{id}", False, "Conversation may not have been properly deleted")
+                    self.log_result("DELETE /api/conversations/{id}", False, "Failed to verify deletion")
                     return False
             else:
                 self.log_result("DELETE /api/conversations/{id}", False, f"Status code: {response.status_code}", response.text)
