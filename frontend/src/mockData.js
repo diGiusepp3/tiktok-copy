@@ -2,7 +2,7 @@
 export const mockVideos = [
   {
     id: '1',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-water-1164-large.mp4',
     username: 'creative_artist',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=1',
     caption: 'Amazing sunset vibes 🌅 #nature #sunset #peaceful',
@@ -15,7 +15,7 @@ export const mockVideos = [
   },
   {
     id: '2',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-1232-large.mp4',
     username: 'dance_master',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=2',
     caption: 'New dance challenge! Can you do this? 💃 #dance #trending #viral',
@@ -28,7 +28,7 @@ export const mockVideos = [
   },
   {
     id: '3',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-food-being-prepared-4255-large.mp4',
     username: 'foodie_heaven',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=3',
     caption: 'Delicious recipe you must try! 🍕 #food #cooking #recipe',
@@ -41,7 +41,7 @@ export const mockVideos = [
   },
   {
     id: '4',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
     username: 'travel_vibes',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=4',
     caption: 'Paradise found! 🏝️ #travel #adventure #paradise',
@@ -54,7 +54,7 @@ export const mockVideos = [
   },
   {
     id: '5',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-man-under-multicolored-lights-1237-large.mp4',
     username: 'comedy_king',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=5',
     caption: 'Wait for it... 😂 #funny #comedy #viral',
@@ -67,7 +67,7 @@ export const mockVideos = [
   },
   {
     id: '6',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-going-down-a-curved-highway-down-a-mountain-range-50632-large.mp4',
     username: 'car_enthusiast',
     userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=6',
     caption: 'Dream car goals 🚗 #cars #luxury #speed',
