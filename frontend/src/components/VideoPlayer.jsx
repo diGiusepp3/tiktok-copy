@@ -1,42 +1,16 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Heart, MessageCircle, Share2, MoreHorizontal, Music, CheckCircle } from 'lucide-react';
+import { Heart, MessageCircle, Share2, MoreHorizontal, Music, CheckCircle, Play } from 'lucide-react';
 
 const VideoPlayer = ({ video, isActive, onLike, onFollow }) => {
-  const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
 
-  useEffect(() => {
-    if (!videoRef.current) return;
-
-    if (isActive) {
-      videoRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch(err => {
-        console.log('Autoplay prevented:', err);
-      });
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
-  }, [isActive]);
-
   const togglePlayPause = () => {
-    if (!videoRef.current) return;
-
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
+    setIsPlaying(!isPlaying);
   };
 
   const toggleMute = () => {
-    if (!videoRef.current) return;
-    videoRef.current.muted = !videoRef.current.muted;
-    setIsMuted(videoRef.current.muted);
+    setIsMuted(!isMuted);
   };
 
   const formatCount = (count) => {
@@ -50,15 +24,18 @@ const VideoPlayer = ({ video, isActive, onLike, onFollow }) => {
 
   return (
     <div className="video-container">
-      <video
-        ref={videoRef}
-        src={video.videoUrl}
-        loop
-        playsInline
-        muted={isMuted}
+      {/* Thumbnail Image (placeholder for video) */}
+      <div 
+        className="video-thumbnail"
+        style={{ backgroundImage: `url(${video.thumbnailUrl})` }}
         onClick={togglePlayPause}
-        className="video-element"
-      />
+      >
+        {!isPlaying && (
+          <div className="play-overlay">
+            <Play className="play-icon" size={64} fill="white" />
+          </div>
+        )}
+      </div>
 
       {/* Top gradient overlay */}
       <div className="video-gradient-top" />
