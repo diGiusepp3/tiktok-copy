@@ -11,15 +11,46 @@ const ChatApp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // Load mock data on mount
+  // Load conversations on mount
   useEffect(() => {
-    setConversations(mockConversations);
-    // Set first conversation as active
-    if (mockConversations.length > 0) {
-      setActiveConversation(mockConversations[0]);
-      setMessages(mockMessages['1'] || []);
-    }
+    loadConversations();
   }, []);
+
+  // Load conversations from API
+  const loadConversations = async () => {
+    try {
+      const data = await conversationAPI.getAll();
+      setConversations(data);
+      
+      // Set first conversation as active if exists
+      if (data.length > 0) {
+        setActiveConversation(data[0]);
+        await loadMessages(data[0].id);
+      }
+    } catch (error) {
+      console.error('Error loading conversations:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to load conversations',
+        variant: 'destructive'
+      });
+    }
+  };
+
+  // Load messages for a conversation
+  const loadMessages = async (conversationId) => {
+    try {
+      const data = await conversationAPI.getMessages(conversationId);
+      setMessages(data);
+    } catch (error) {
+      console.error('Error loading messages:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to load messages',
+        variant: 'destructive'
+      });
+    }
+  };
 
   // Handle new chat
   const handleNewChat = () => {
