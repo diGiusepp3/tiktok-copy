@@ -101,8 +101,11 @@ const Profile = ({ onBack }) => {
       <div className="video-grid">
         {activeTab === 'videos' ? (
           userVideos.map((video) => (
-            <div key={video.id} className="grid-video-item">
-              <video src={video.videoUrl} className="grid-video" />
+            <div 
+              key={video.id} 
+              className="grid-video-item"
+              style={{ backgroundImage: `url(${video.thumbnailUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            >
               <div className="grid-video-overlay">
                 <span className="video-views">👁️ {formatCount(video.likes * 10)}</span>
               </div>
