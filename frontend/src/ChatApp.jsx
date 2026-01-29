@@ -75,9 +75,9 @@ const ChatApp = () => {
   };
 
   // Handle conversation selection
-  const handleSelectConversation = (conversation) => {
+  const handleSelectConversation = async (conversation) => {
     setActiveConversation(conversation);
-    setMessages(mockMessages[conversation.id] || []);
+    await loadMessages(conversation.id);
   };
 
   // Handle delete conversation
