@@ -1,0 +1,15 @@
+2026-01-29 05:46:40,086 - INFO - Fetching: https://pimpbunny.com/onlyfans-models/
+2026-01-29 05:46:40,739 - INFO - Scraping page 2: https://pimpbunny.com/onlyfans-models&page=4
+2026-01-29 05:46:40,739 - INFO - Fetching: https://pimpbunny.com/onlyfans-models&page=4
+2026-01-29 05:46:40,793 - ERROR - Failed to fetch https://pimpbunny.com/onlyfans-models&page=4: 404 Client Error: Not Found for url: https://pimpbunny.com/onlyfans-models&page=4/
+2026-01-29 05:46:40,793 - WARNING - Could not fetch page: https://pimpbunny.com/onlyfans-models&page=4
+2026-01-29 05:46:40,793 - INFO - Scraping page 2: https://pimpbunny.com/onlyfans-models?page=5
+2026-01-29 05:46:40,794 - INFO - Fetching: https://pimpbunny.com/onlyfans-models?page=5
+2026-01-29 05:46:42,201 - INFO - Scraping page 3: https://pimpbunny.com/onlyfans-models&page=5
+2026-01-29 05:46:42,201 - INFO - Fetching: https://pimpbunny.com/onlyfans-models&page=5
+2026-01-29 05:46:42,258 - ERROR - Failed to fetch https://pimpbunny.com/onlyfans-models&page=5: 404 Client Error: Not Found for url: https://pimpbunny.com/onlyfans-models&page=5/
+2026-01-29 05:46:42,258 - WARNING - Could not fetch page: https://pimpbunny.com/onlyfans-models&page=5
+2026-01-29 05:46:42,258 - INFO - Scraping page 3: https://pimpbunny.com/onlyfans-models/page/2/
+2026-01-29 05:46:42,258 - INFO - Fetching: https://pimpbunny.com/onlyfans-models/page/2/
+2026-01-29 05:46:42,333 - ERROR - Failed to fetch https://pimpbunny.com/onlyfans-models/page/2/: 404 Client Error: Not Found for url: https://pimpbunny.com/onlyfans-models/page/2/
+2026-01-29 05:46:42,333 - WARNING - Could not fetch page: https://pimpbunny.com/onlyfans-models/page/2/
