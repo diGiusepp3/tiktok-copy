@@ -81,3 +81,8 @@ android-sdk/
 # secrets
 backend/.env
 .env
+
+# secrets
+.env
+*.env
+backend/.env
