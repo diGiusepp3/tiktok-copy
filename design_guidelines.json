@@ -1,124 +1,177 @@
 {
   "identity": {
-    "name": "E1: The Anti-AI Designer",
-    "mission": "Create a 'Dark Mode' unrestricted AI chat interface that feels like a cyberpunk terminal or a black-ops tool.",
+    "name": "E1",
+    "role": "Anti-AI Designer",
     "principles": [
-      "Fusion over Imitation: Mix Terminal aesthetics with modern SaaS smoothness.",
-      "Emotion First: The user should feel like they are accessing something forbidden/powerful.",
-      "Content is King: The chat content is the hero; UI recedes into the void.",
-      "Contrast: High contrast neon against deep void black."
+      "Fusion over Imitation",
+      "Emotion First",
+      "Content is King",
+      "Zoom In",
+      "Negative Space",
+      "Contrast"
     ]
+  },
+  "project": {
+    "name": "OnlyFans + TikTok Hybrid",
+    "aesthetic": "Midnight Velvet (Dark Mode Only)",
+    "target_audience": "Adult content consumers, creators, power users"
   },
   "typography": {
-    "primary_font": "Manrope",
-    "secondary_font": "JetBrains Mono",
-    "logo_font": "JetBrains Mono",
-    "scale": {
-      "h1": "text-4xl md:text-5xl font-bold tracking-tight",
-      "h2": "text-3xl md:text-4xl font-semibold tracking-tight",
-      "h3": "text-2xl font-medium tracking-tight",
-      "body": "text-base leading-relaxed",
-      "small": "text-sm text-muted-foreground",
-      "code": "font-mono text-sm"
+    "headings": {
+      "font_family": "Manrope, sans-serif",
+      "weights": ["600", "800"],
+      "tracking": "-0.02em",
+      "usage": "Page titles, Creator names, Section headers"
     },
-    "imports": [
-      "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Manrope:wght@400;600;800&display=swap');"
-    ]
+    "body": {
+      "font_family": "Inter, sans-serif",
+      "weights": ["400", "500"],
+      "tracking": "0",
+      "usage": "UI elements, descriptions, chat, terminal"
+    },
+    "mono": {
+      "font_family": "JetBrains Mono, monospace",
+      "usage": "CLI Terminal, Scraper logs, File paths"
+    }
   },
   "colors": {
-    "theme": "dark",
     "palette": {
       "background": "#050505",
-      "foreground": "#E0E0E0",
-      "card": "#0A0A0A",
+      "foreground": "#EAEAEA",
+      "card": "#121212",
       "card_foreground": "#FFFFFF",
-      "popover": "#0A0A0A",
-      "popover_foreground": "#FFFFFF",
-      "primary": "#00E5FF",
-      "primary_foreground": "#000000",
-      "secondary": "#1F1F1F",
-      "secondary_foreground": "#FFFFFF",
+      "primary": "#E91E63",
+      "primary_foreground": "#FFFFFF",
+      "secondary": "#00F0FF",
+      "secondary_foreground": "#000000",
       "muted": "#1A1A1A",
       "muted_foreground": "#888888",
-      "accent": "#FF2E63",
+      "accent": "#2A2A2A",
       "accent_foreground": "#FFFFFF",
-      "destructive": "#FF0000",
-      "destructive_foreground": "#FFFFFF",
-      "border": "#333333",
+      "destructive": "#FF2E2E",
+      "border": "#222222",
       "input": "#1A1A1A",
-      "ring": "#00E5FF"
+      "ring": "#E91E63"
     },
     "gradients": {
-      "glow": "linear-gradient(180deg, rgba(0, 229, 255, 0.1) 0%, rgba(0, 0, 0, 0) 100%)"
+      "primary_glow": "linear-gradient(135deg, #E91E63 0%, #9C1C44 100%)",
+      "secondary_glow": "linear-gradient(135deg, #00F0FF 0%, #0099FF 100%)",
+      "glass": "rgba(18, 18, 18, 0.7)"
     }
   },
   "visual_enhancers": {
-    "borders": "1px solid #333333",
-    "radius": "0px",
-    "shadows": {
-      "neon": "0 0 10px rgba(0, 229, 255, 0.3)",
-      "void": "0 20px 50px rgba(0,0,0,0.8)"
+    "radius": {
+      "default": "0.75rem",
+      "sm": "0.5rem",
+      "lg": "1rem",
+      "full": "9999px"
     },
-    "textures": {
-      "noise": "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E\")",
-      "scanlines": "linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))"
+    "shadows": {
+      "neon_pink": "0 0 20px rgba(233, 30, 99, 0.3)",
+      "neon_cyan": "0 0 20px rgba(0, 240, 255, 0.3)",
+      "card": "0 4px 24px rgba(0, 0, 0, 0.4)"
+    },
+    "glassmorphism": {
+      "backdrop_filter": "blur(16px)",
+      "background": "rgba(5, 5, 5, 0.7)",
+      "border": "1px solid rgba(255, 255, 255, 0.08)"
     }
   },
-  "layout": {
-    "grid_system": "grid-cols-1 md:grid-cols-[260px_1fr]",
-    "spacing": {
-      "container_padding": "p-4 md:p-6",
-      "section_gap": "gap-6"
+  "layout_strategies": {
+    "feed": {
+      "type": "Snap Scroll",
+      "structure": "h-screen w-full overflow-y-scroll snap-y snap-mandatory",
+      "item": "h-screen w-full snap-start relative"
     },
-    "sidebar": {
-      "width": "w-[260px]",
-      "behavior": "hidden md:flex flex-col border-r border-border bg-card/50 backdrop-blur-xl"
+    "profile": {
+      "type": "Parallax Header + Masonry",
+      "header_height": "40vh",
+      "grid_cols": "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+      "gap": "gap-1"
     },
-    "main_chat": {
-      "width": "max-w-3xl mx-auto w-full",
-      "alignment": "flex flex-col h-full"
+    "dashboard": {
+      "type": "Bento Grid",
+      "density": "High",
+      "gap": "gap-4"
     }
   },
   "components": {
     "buttons": {
-      "primary": "bg-primary text-primary-foreground hover:bg-primary/90 rounded-none font-mono uppercase tracking-wider text-xs px-6 py-3 transition-all hover:shadow-[0_0_15px_rgba(0,229,255,0.4)]",
-      "secondary": "bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-none font-mono text-xs px-4 py-2 border border-border"
-    },
-    "inputs": {
-      "chat": "bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary rounded-none p-4 font-mono text-sm placeholder:text-muted-foreground/50 shadow-none transition-colors"
-    },
-    "chat_bubbles": {
-      "user": "bg-secondary text-secondary-foreground rounded-none rounded-tl-lg rounded-bl-lg rounded-br-lg p-4 max-w-[85%]",
-      "ai": "bg-transparent border border-border text-foreground rounded-none rounded-tr-lg rounded-br-lg rounded-bl-lg p-4 max-w-[85%] font-mono text-sm"
+      "primary": "bg-primary text-white hover:bg-primary/90 shadow-neon_pink rounded-full px-8 py-3 font-bold transition-all hover:scale-105",
+      "secondary": "bg-secondary text-black hover:bg-secondary/90 shadow-neon_cyan rounded-full px-8 py-3 font-bold transition-all hover:scale-105",
+      "ghost": "hover:bg-white/10 text-white rounded-lg px-4 py-2",
+      "icon": "p-3 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 text-white transition-all"
     },
     "cards": {
-      "base": "bg-card border border-border rounded-none p-6 hover:border-primary/50 transition-colors"
+      "base": "bg-card border border-border rounded-xl overflow-hidden",
+      "hover": "hover:border-primary/50 transition-colors duration-300"
+    },
+    "inputs": {
+      "base": "bg-input border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-lg h-12 px-4 text-white placeholder:text-muted-foreground"
     }
   },
   "image_urls": {
-    "backgrounds": [
+    "creators": [
       {
-        "url": "https://images.unsplash.com/photo-1764258560300-2346b28b4e7c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODh8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGRhcmslMjBjeWJlciUyMG5ldHdvcmt8ZW58MHx8fHwxNzY5NjQ5ODMzfDA&ixlib=rb-4.1.0&q=85",
-        "description": "Abstract blue glowing lines for subtle background texture",
-        "category": "background"
+        "url": "https://images.unsplash.com/photo-1653256170871-d0a26c41f49c",
+        "desc": "Neon portrait woman (Main Profile)",
+        "category": "profile_hero"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1618698937393-8d7bb5f2d341",
+        "desc": "Purple plaid shirt woman",
+        "category": "avatar"
+      }
+    ],
+    "feed_placeholders": [
+      {
+        "url": "https://images.unsplash.com/photo-1756664722134-0fd018cc2259",
+        "desc": "Dark hallway",
+        "category": "video_thumbnail"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1696694138288-d3c14bdd35f1",
+        "desc": "Dimly lit room",
+        "category": "video_thumbnail"
+      }
+    ],
+    "tech_backgrounds": [
+      {
+        "url": "https://images.unsplash.com/photo-1762279389006-43963a0cee55",
+        "desc": "Abstract neon lines",
+        "category": "scraper_bg"
       }
     ]
   },
   "instructions_to_main_agent": [
-    "Implement a 'Terminal' aesthetic: Use sharp corners (rounded-none or rounded-sm), monospace fonts for data/labels, and high contrast.",
-    "Use the 'JetBrains Mono' font for all headers, code blocks, and UI labels (buttons, badges). Use 'Manrope' for long-form chat text for readability.",
-    "The Sidebar should feel like a system directory. Use simple list items with hover effects (bg-white/5).",
-    "The Main Chat input should feel like a command line. Add a '>' prefix icon.",
-    "Syntax Highlighting: Use a dark theme (e.g., 'dracula' or 'atom-one-dark') for code blocks.",
-    "Animations: Add a subtle 'fade-in' for new messages. No bouncy animations. Keep it mechanical and fast.",
-    "Use the provided background image with very low opacity (5-10%) mixed with the black background to add depth without distraction.",
-    "CRITICAL: Ensure the 'Export' feature is prominent but utilitarian (like a 'DOWNLOAD LOG' button).",
-    "CRITICAL: Dark Mode is the ONLY mode. Do not implement a light mode toggle."
+    "UPDATE /app/frontend/src/index.css with the CSS variables defined in 'colors.palette'. Ensure they are HSL values if using Shadcn default utility classes, or Hex if overriding directly.",
+    "INSTALL 'lucide-react' for icons.",
+    "USE 'framer-motion' for the swipe feed animations and page transitions.",
+    "IMPLEMENT the 'Feed' as the home page (Mobile First).",
+    "CREATE a 'Scraper' page that looks like a terminal/dashboard hybrid using the 'mono' font.",
+    "ENSURE all images use 'object-cover' and have proper aspect ratios (9:16 for feed, 1:1 for avatars).",
+    "ADD 'data-testid' to all interactive elements.",
+    "DO NOT use gradients for backgrounds, only for text or subtle borders/glows.",
+    "USE 'sonner' for notifications (e.g., 'Download Started', 'Subscribed')."
   ],
-  "universal_guidelines": [
-    "Do not use gradients for backgrounds unless it's a subtle glow.",
-    "Avoid rounded-xl or rounded-2xl. Stick to rounded-sm or rounded-none.",
-    "Use 'sonner' for toast notifications with a dark, bordered style.",
-    "Ensure all interactive elements have data-testid attributes."
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy",
+    "Use glass-morphism effects with backdrop filters (12-24px blur)",
+    "You MUST NOT apply universal transition. Eg: transition: all. This results in breaking transforms. Always add transitions for specific interactive elements like button, input excluding transforms",
+    "You MUST NOT center align the app container, ie do not add .App { text-align: center; } in the css file. This disrupts the human natural reading flow of text",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style",
+    "NEVER: use AI assistant Emoji characters like 🤖🧠💭💡🔮🎯📚🎭🎬🎪🎉🎊🎁🎀🎂🍰🎈🎨🎰💰💵💳🏦💎🪙💸🤑📊📈📉💹🔢🏆🥇 etc for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations. Static = dead.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
+    "Main agent relies on these image URLs. Missing categories (especially sponsor logos) = main agent will use placeholder text which is FORBIDDEN",
+    "Prioritize using pre-existing components from src/components/ui when applicable",
+    "Create new components that match the style and conventions of existing components when needed",
+    "Examine existing components to understand the project's component patterns before creating new ones",
+    "Components MUST use named exports (export const ComponentName = ...)",
+    "Pages MUST use default exports (export default function PageName() {...})",
+    "Use 'sonner' for toasts. Sonner component are located in /app/src/components/ui/sonner.tsx"
   ]
 }
