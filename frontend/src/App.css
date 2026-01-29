@@ -1,70 +1,11 @@
-/* App-specific styles */
-.App {
-    min-height: 100vh;
-    background-color: #050505;
-}
-
-/* Ensure full height */
-html, body, #root {
-    height: 100%;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-/* Terminal cursor animation */
-@keyframes terminalBlink {
-    0%, 49% {
-        opacity: 1;
-    }
-    50%, 100% {
-        opacity: 0;
-    }
-}
-
-.terminal-cursor {
-    animation: terminalBlink 1s step-end infinite;
-}
-
-/* Scanline effect (optional subtle background) */
-.scanlines::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        rgba(18, 16, 16, 0) 50%,
-        rgba(0, 0, 0, 0.1) 50%
-    );
-    background-size: 100% 4px;
-    pointer-events: none;
-    opacity: 0.1;
-}
-
-/* Highlight selection */
-::selection {
-    background: rgba(0, 229, 255, 0.3);
-    color: #fff;
-}
-
-::-moz-selection {
-    background: rgba(0, 229, 255, 0.3);
-    color: #fff;
-}
-
-/* Focus states */
-button:focus-visible,
-a:focus-visible {
-    outline: 1px solid #00E5FF;
-    outline-offset: 2px;
-}
-
-/* Textarea auto-resize behavior */
-textarea {
-    overflow-y: hidden;
-}
-
-textarea:focus {
-    box-shadow: none !important;
+body, html, #root, .App {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }

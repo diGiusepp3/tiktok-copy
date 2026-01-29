@@ -1,267 +1,408 @@
+#!/usr/bin/env python3
+"""
+ChatGPT Clone Backend API Test Suite
+Tests all backend endpoints thoroughly including database operations and OpenAI integration
+"""
+
 import requests
-import sys
 import json
-from datetime import datetime
+import time
+import sys
+from typing import Dict, Any, Optional
 
-class UnrestrictedAITester:
-    def __init__(self, base_url="https://unrestricted-ai-70.preview.emergentagent.com/api"):
-        self.base_url = base_url
-        self.tests_run = 0
-        self.tests_passed = 0
-        self.session_id = None
-        self.message_id = None
+# Backend URL from environment
+BACKEND_URL = "https://chatty-clone-14.preview.emergentagent.com/api"
 
-    def run_test(self, name, method, endpoint, expected_status, data=None, params=None):
-        """Run a single API test"""
-        url = f"{self.base_url}/{endpoint}"
-        headers = {'Content-Type': 'application/json'}
-
-        self.tests_run += 1
-        print(f"\n🔍 Testing {name}...")
-        print(f"   URL: {url}")
+class BackendTester:
+    def __init__(self):
+        self.base_url = BACKEND_URL
+        self.session = requests.Session()
+        self.test_conversation_id = None
+        self.test_message_id = None
+        self.results = []
         
+    def log_result(self, test_name: str, success: bool, details: str = "", response_data: Any = None):
+        """Log test result"""
+        status = "✅ PASS" if success else "❌ FAIL"
+        print(f"{status} {test_name}")
+        if details:
+            print(f"   Details: {details}")
+        if response_data and not success:
+            print(f"   Response: {response_data}")
+        print()
+        
+        self.results.append({
+            "test": test_name,
+            "success": success,
+            "details": details,
+            "response_data": response_data
+        })
+    
+    def test_get_conversations(self) -> bool:
+        """Test GET /api/conversations"""
         try:
-            if method == 'GET':
-                response = requests.get(url, headers=headers, params=params)
-            elif method == 'POST':
-                response = requests.post(url, json=data, headers=headers)
-            elif method == 'PUT':
-                response = requests.put(url, json=data, headers=headers)
-            elif method == 'DELETE':
-                response = requests.delete(url, headers=headers)
-
-            success = response.status_code == expected_status
-            if success:
-                self.tests_passed += 1
-                print(f"✅ Passed - Status: {response.status_code}")
-                try:
-                    return success, response.json() if response.content else {}
-                except:
-                    return success, {}
+            response = self.session.get(f"{self.base_url}/conversations")
+            
+            if response.status_code == 200:
+                conversations = response.json()
+                if isinstance(conversations, list):
+                    self.log_result("GET /api/conversations", True, f"Retrieved {len(conversations)} conversations")
+                    return True
+                else:
+                    self.log_result("GET /api/conversations", False, "Response is not a list", conversations)
+                    return False
             else:
-                print(f"❌ Failed - Expected {expected_status}, got {response.status_code}")
-                print(f"   Response: {response.text[:200]}...")
-                return False, {}
-
+                self.log_result("GET /api/conversations", False, f"Status code: {response.status_code}", response.text)
+                return False
+                
         except Exception as e:
-            print(f"❌ Failed - Error: {str(e)}")
-            return False, {}
-
-    def test_root_endpoint(self):
-        """Test root API endpoint"""
-        success, response = self.run_test(
-            "Root API Endpoint",
-            "GET",
-            "",
-            200
-        )
-        return success
-
-    def test_create_session(self):
-        """Test creating a new chat session"""
-        success, response = self.run_test(
-            "Create New Session",
-            "POST",
-            "sessions",
-            200,
-            data={"title": "Test Chat Session"}
-        )
-        if success and 'id' in response:
-            self.session_id = response['id']
-            print(f"   Created session ID: {self.session_id}")
-            return True
-        return False
-
-    def test_get_sessions(self):
-        """Test getting all sessions"""
-        success, response = self.run_test(
-            "Get All Sessions",
-            "GET",
-            "sessions",
-            200
-        )
-        if success:
-            print(f"   Found {len(response)} sessions")
-        return success
-
-    def test_get_session_by_id(self):
-        """Test getting a specific session"""
-        if not self.session_id:
-            print("❌ No session ID available for testing")
+            self.log_result("GET /api/conversations", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_create_conversation(self) -> bool:
+        """Test POST /api/conversations"""
+        try:
+            payload = {"title": "Test Conversation"}
+            response = self.session.post(
+                f"{self.base_url}/conversations",
+                json=payload,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code == 200:
+                conversation = response.json()
+                required_fields = ["id", "title", "created_at", "updated_at"]
+                
+                if all(field in conversation for field in required_fields):
+                    if conversation["title"] == "Test Conversation":
+                        self.test_conversation_id = conversation["id"]
+                        self.log_result("POST /api/conversations", True, f"Created conversation with ID: {self.test_conversation_id}")
+                        return True
+                    else:
+                        self.log_result("POST /api/conversations", False, "Title mismatch", conversation)
+                        return False
+                else:
+                    self.log_result("POST /api/conversations", False, "Missing required fields", conversation)
+                    return False
+            else:
+                self.log_result("POST /api/conversations", False, f"Status code: {response.status_code}", response.text)
+                return False
+                
+        except Exception as e:
+            self.log_result("POST /api/conversations", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_send_message(self) -> bool:
+        """Test POST /api/conversations/{id}/messages"""
+        if not self.test_conversation_id:
+            self.log_result("POST /api/conversations/{id}/messages", False, "No test conversation ID available")
             return False
             
-        success, response = self.run_test(
-            "Get Session by ID",
-            "GET",
-            f"sessions/{self.session_id}",
-            200
-        )
-        return success
-
-    def test_update_session_title(self):
-        """Test updating session title"""
-        if not self.session_id:
-            print("❌ No session ID available for testing")
+        try:
+            payload = {"content": "Tell me a joke"}
+            response = self.session.post(
+                f"{self.base_url}/conversations/{self.test_conversation_id}/messages",
+                json=payload,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code == 200:
+                chat_response = response.json()
+                
+                # Check response structure
+                if "user_message" in chat_response and "assistant_message" in chat_response:
+                    user_msg = chat_response["user_message"]
+                    assistant_msg = chat_response["assistant_message"]
+                    
+                    # Validate user message
+                    if (user_msg["role"] == "user" and 
+                        user_msg["content"] == "Tell me a joke" and
+                        user_msg["conversation_id"] == self.test_conversation_id):
+                        
+                        # Validate assistant message
+                        if (assistant_msg["role"] == "assistant" and 
+                            len(assistant_msg["content"]) > 0 and
+                            assistant_msg["conversation_id"] == self.test_conversation_id):
+                            
+                            self.test_message_id = assistant_msg["id"]
+                            
+                            # Check if response looks like a real AI response (not mocked)
+                            ai_content = assistant_msg["content"].lower()
+                            if any(keyword in ai_content for keyword in ["joke", "funny", "laugh", "humor", "why", "what"]):
+                                self.log_result("POST /api/conversations/{id}/messages", True, 
+                                              f"AI responded intelligently with: {assistant_msg['content'][:100]}...")
+                                return True
+                            else:
+                                self.log_result("POST /api/conversations/{id}/messages", False, 
+                                              f"AI response doesn't seem contextual: {assistant_msg['content']}")
+                                return False
+                        else:
+                            self.log_result("POST /api/conversations/{id}/messages", False, "Invalid assistant message", assistant_msg)
+                            return False
+                    else:
+                        self.log_result("POST /api/conversations/{id}/messages", False, "Invalid user message", user_msg)
+                        return False
+                else:
+                    self.log_result("POST /api/conversations/{id}/messages", False, "Missing user_message or assistant_message", chat_response)
+                    return False
+            else:
+                self.log_result("POST /api/conversations/{id}/messages", False, f"Status code: {response.status_code}", response.text)
+                return False
+                
+        except Exception as e:
+            self.log_result("POST /api/conversations/{id}/messages", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_get_messages(self) -> bool:
+        """Test GET /api/conversations/{id}/messages"""
+        if not self.test_conversation_id:
+            self.log_result("GET /api/conversations/{id}/messages", False, "No test conversation ID available")
             return False
             
-        success, response = self.run_test(
-            "Update Session Title",
-            "PUT",
-            f"sessions/{self.session_id}",
-            200,
-            data={"title": "Updated Test Title"}
-        )
-        return success
-
-    def test_send_message(self):
-        """Test sending a message to get AI response"""
-        if not self.session_id:
-            print("❌ No session ID available for testing")
+        try:
+            response = self.session.get(f"{self.base_url}/conversations/{self.test_conversation_id}/messages")
+            
+            if response.status_code == 200:
+                messages = response.json()
+                
+                if isinstance(messages, list) and len(messages) >= 2:
+                    # Should have at least user message and assistant message
+                    user_msg = messages[0]
+                    assistant_msg = messages[1]
+                    
+                    if (user_msg["role"] == "user" and 
+                        assistant_msg["role"] == "assistant" and
+                        user_msg["content"] == "Tell me a joke"):
+                        self.log_result("GET /api/conversations/{id}/messages", True, f"Retrieved {len(messages)} messages correctly")
+                        return True
+                    else:
+                        self.log_result("GET /api/conversations/{id}/messages", False, "Message content/roles incorrect", messages)
+                        return False
+                else:
+                    self.log_result("GET /api/conversations/{id}/messages", False, f"Expected at least 2 messages, got {len(messages) if isinstance(messages, list) else 'non-list'}", messages)
+                    return False
+            else:
+                self.log_result("GET /api/conversations/{id}/messages", False, f"Status code: {response.status_code}", response.text)
+                return False
+                
+        except Exception as e:
+            self.log_result("GET /api/conversations/{id}/messages", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_regenerate_response(self) -> bool:
+        """Test POST /api/conversations/{id}/regenerate"""
+        if not self.test_conversation_id or not self.test_message_id:
+            self.log_result("POST /api/conversations/{id}/regenerate", False, "No test conversation ID or message ID available")
             return False
             
-        success, response = self.run_test(
-            "Send Message (AI Response)",
-            "POST",
-            f"sessions/{self.session_id}/messages",
-            200,
-            data={"content": "Hello, this is a test message. Please respond with 'Test successful'."}
-        )
-        if success and 'id' in response:
-            self.message_id = response['id']
-            print(f"   AI Response: {response.get('content', 'No content')[:100]}...")
-        return success
-
-    def test_get_messages(self):
-        """Test getting messages for a session"""
-        if not self.session_id:
-            print("❌ No session ID available for testing")
+        try:
+            payload = {"message_id": self.test_message_id}
+            response = self.session.post(
+                f"{self.base_url}/conversations/{self.test_conversation_id}/regenerate",
+                json=payload,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code == 200:
+                new_message = response.json()
+                
+                if (new_message["role"] == "assistant" and 
+                    new_message["conversation_id"] == self.test_conversation_id and
+                    len(new_message["content"]) > 0):
+                    
+                    # Check if it's a different response (regenerated)
+                    self.log_result("POST /api/conversations/{id}/regenerate", True, 
+                                  f"Successfully regenerated response: {new_message['content'][:100]}...")
+                    return True
+                else:
+                    self.log_result("POST /api/conversations/{id}/regenerate", False, "Invalid regenerated message", new_message)
+                    return False
+            else:
+                self.log_result("POST /api/conversations/{id}/regenerate", False, f"Status code: {response.status_code}", response.text)
+                return False
+                
+        except Exception as e:
+            self.log_result("POST /api/conversations/{id}/regenerate", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_conversation_title_generation(self) -> bool:
+        """Test that conversation title is auto-generated from first message"""
+        try:
+            # Create a new conversation
+            payload = {"title": "New chat"}
+            response = self.session.post(
+                f"{self.base_url}/conversations",
+                json=payload,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code != 200:
+                self.log_result("Title Generation Test", False, "Failed to create conversation for title test")
+                return False
+                
+            conv_id = response.json()["id"]
+            
+            # Send first message
+            payload = {"content": "What is machine learning?"}
+            response = self.session.post(
+                f"{self.base_url}/conversations/{conv_id}/messages",
+                json=payload,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code != 200:
+                self.log_result("Title Generation Test", False, "Failed to send message for title test")
+                return False
+            
+            # Check if title was updated
+            response = self.session.get(f"{self.base_url}/conversations")
+            if response.status_code == 200:
+                conversations = response.json()
+                test_conv = next((c for c in conversations if c["id"] == conv_id), None)
+                
+                if test_conv and test_conv["title"] != "New chat":
+                    self.log_result("Title Generation Test", True, f"Title auto-generated: '{test_conv['title']}'")
+                    
+                    # Clean up
+                    self.session.delete(f"{self.base_url}/conversations/{conv_id}")
+                    return True
+                else:
+                    self.log_result("Title Generation Test", False, "Title was not auto-generated", test_conv)
+                    return False
+            else:
+                self.log_result("Title Generation Test", False, "Failed to fetch conversations for title verification")
+                return False
+                
+        except Exception as e:
+            self.log_result("Title Generation Test", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_delete_conversation(self) -> bool:
+        """Test DELETE /api/conversations/{id}"""
+        if not self.test_conversation_id:
+            self.log_result("DELETE /api/conversations/{id}", False, "No test conversation ID available")
             return False
             
-        success, response = self.run_test(
-            "Get Session Messages",
-            "GET",
-            f"sessions/{self.session_id}/messages",
-            200
-        )
-        if success:
-            print(f"   Found {len(response)} messages")
-        return success
-
-    def test_export_json(self):
-        """Test exporting session as JSON"""
-        if not self.session_id:
-            print("❌ No session ID available for testing")
-            return False
+        try:
+            response = self.session.delete(f"{self.base_url}/conversations/{self.test_conversation_id}")
             
-        success, response = self.run_test(
-            "Export Session as JSON",
-            "GET",
-            f"sessions/{self.session_id}/export",
-            200,
-            params={"format": "json"}
-        )
-        return success
-
-    def test_export_txt(self):
-        """Test exporting session as TXT"""
-        if not self.session_id:
-            print("❌ No session ID available for testing")
+            if response.status_code == 200:
+                # Verify conversation is deleted by checking if it's in the conversations list
+                verify_response = self.session.get(f"{self.base_url}/conversations")
+                
+                if verify_response.status_code == 200:
+                    conversations = verify_response.json()
+                    deleted_conv = next((c for c in conversations if c["id"] == self.test_conversation_id), None)
+                    
+                    if deleted_conv is None:
+                        # Also check that messages are empty
+                        msg_response = self.session.get(f"{self.base_url}/conversations/{self.test_conversation_id}/messages")
+                        if msg_response.status_code == 200 and msg_response.json() == []:
+                            self.log_result("DELETE /api/conversations/{id}", True, "Conversation and messages deleted successfully (cascade delete working)")
+                            return True
+                        else:
+                            self.log_result("DELETE /api/conversations/{id}", False, "Messages not properly deleted")
+                            return False
+                    else:
+                        self.log_result("DELETE /api/conversations/{id}", False, "Conversation still exists in list")
+                        return False
+                else:
+                    self.log_result("DELETE /api/conversations/{id}", False, "Failed to verify deletion")
+                    return False
+            else:
+                self.log_result("DELETE /api/conversations/{id}", False, f"Status code: {response.status_code}", response.text)
+                return False
+                
+        except Exception as e:
+            self.log_result("DELETE /api/conversations/{id}", False, f"Exception: {str(e)}")
             return False
+    
+    def test_database_persistence(self) -> bool:
+        """Test that data persists in MySQL database"""
+        try:
+            # Create conversation
+            payload = {"title": "Persistence Test"}
+            response = self.session.post(f"{self.base_url}/conversations", json=payload)
+            if response.status_code != 200:
+                self.log_result("Database Persistence Test", False, "Failed to create test conversation")
+                return False
+                
+            conv_id = response.json()["id"]
             
-        success, response = self.run_test(
-            "Export Session as TXT",
-            "GET",
-            f"sessions/{self.session_id}/export",
-            200,
-            params={"format": "txt"}
-        )
-        return success
-
-    def test_delete_session(self):
-        """Test deleting a session"""
-        if not self.session_id:
-            print("❌ No session ID available for testing")
+            # Send message
+            payload = {"content": "Test persistence"}
+            response = self.session.post(f"{self.base_url}/conversations/{conv_id}/messages", json=payload)
+            if response.status_code != 200:
+                self.log_result("Database Persistence Test", False, "Failed to send test message")
+                return False
+            
+            # Wait a moment
+            time.sleep(1)
+            
+            # Retrieve and verify data persists
+            response = self.session.get(f"{self.base_url}/conversations/{conv_id}/messages")
+            if response.status_code == 200:
+                messages = response.json()
+                if len(messages) >= 2 and messages[0]["content"] == "Test persistence":
+                    self.log_result("Database Persistence Test", True, "Data persisted correctly in MySQL")
+                    
+                    # Clean up
+                    self.session.delete(f"{self.base_url}/conversations/{conv_id}")
+                    return True
+                else:
+                    self.log_result("Database Persistence Test", False, "Data not persisted correctly", messages)
+                    return False
+            else:
+                self.log_result("Database Persistence Test", False, "Failed to retrieve persisted data")
+                return False
+                
+        except Exception as e:
+            self.log_result("Database Persistence Test", False, f"Exception: {str(e)}")
             return False
-            
-        success, response = self.run_test(
-            "Delete Session",
-            "DELETE",
-            f"sessions/{self.session_id}",
-            200
-        )
-        return success
-
-    def test_code_syntax_message(self):
-        """Test sending a message with code to verify syntax highlighting support"""
-        # Create a new session for this test
-        success, response = self.run_test(
-            "Create Session for Code Test",
-            "POST",
-            "sessions",
-            200,
-            data={"title": "Code Test Session"}
-        )
+    
+    def run_all_tests(self):
+        """Run all backend tests in sequence"""
+        print("🚀 Starting ChatGPT Clone Backend API Tests")
+        print(f"Backend URL: {self.base_url}")
+        print("=" * 60)
         
-        if not success or 'id' not in response:
-            return False
+        # Test sequence
+        tests = [
+            ("Basic Connectivity", self.test_get_conversations),
+            ("Create Conversation", self.test_create_conversation),
+            ("Send Message & AI Response", self.test_send_message),
+            ("Get Messages", self.test_get_messages),
+            ("Regenerate Response", self.test_regenerate_response),
+            ("Title Auto-Generation", self.test_conversation_title_generation),
+            ("Database Persistence", self.test_database_persistence),
+            ("Delete Conversation", self.test_delete_conversation),
+        ]
+        
+        passed = 0
+        total = len(tests)
+        
+        for test_name, test_func in tests:
+            print(f"Running: {test_name}")
+            if test_func():
+                passed += 1
+            time.sleep(0.5)  # Small delay between tests
+        
+        print("=" * 60)
+        print(f"📊 Test Results: {passed}/{total} tests passed")
+        
+        if passed == total:
+            print("🎉 All tests passed! Backend is working correctly.")
+        else:
+            print("⚠️  Some tests failed. Check the details above.")
             
-        code_session_id = response['id']
-        
-        # Send a message requesting code
-        success, response = self.run_test(
-            "Send Code Request Message",
-            "POST",
-            f"sessions/{code_session_id}/messages",
-            200,
-            data={"content": "Please write a simple Python function that adds two numbers. Use proper code formatting."}
-        )
-        
-        # Clean up
-        self.run_test("Delete Code Test Session", "DELETE", f"sessions/{code_session_id}", 200)
-        
-        return success
+        return passed == total
 
 def main():
-    print("🚀 Starting Unrestricted AI Backend API Tests")
-    print("=" * 60)
+    tester = BackendTester()
+    success = tester.run_all_tests()
     
-    tester = UnrestrictedAITester()
-    
-    # Test sequence
-    tests = [
-        ("Root Endpoint", tester.test_root_endpoint),
-        ("Create Session", tester.test_create_session),
-        ("Get All Sessions", tester.test_get_sessions),
-        ("Get Session by ID", tester.test_get_session_by_id),
-        ("Update Session Title", tester.test_update_session_title),
-        ("Send Message & AI Response", tester.test_send_message),
-        ("Get Session Messages", tester.test_get_messages),
-        ("Export as JSON", tester.test_export_json),
-        ("Export as TXT", tester.test_export_txt),
-        ("Code Syntax Test", tester.test_code_syntax_message),
-        ("Delete Session", tester.test_delete_session),
-    ]
-    
-    failed_tests = []
-    
-    for test_name, test_func in tests:
-        try:
-            if not test_func():
-                failed_tests.append(test_name)
-        except Exception as e:
-            print(f"❌ {test_name} - Exception: {str(e)}")
-            failed_tests.append(test_name)
-    
-    # Print results
-    print("\n" + "=" * 60)
-    print(f"📊 Test Results: {tester.tests_passed}/{tester.tests_run} passed")
-    
-    if failed_tests:
-        print(f"❌ Failed tests: {', '.join(failed_tests)}")
-        return 1
-    else:
-        print("✅ All tests passed!")
-        return 0
+    if not success:
+        sys.exit(1)
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()
