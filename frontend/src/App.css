@@ -81,7 +81,12 @@
 
 /* Bottom navigation */
 .bottom-nav {
-    @apply fixed bottom-0 left-0 right-0 glass safe-bottom z-50;
+    @apply fixed bottom-0 left-0 right-0 z-50;
+    background: rgba(5, 5, 5, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: env(safe-area-inset-bottom, 12px);
 }
 
 .bottom-nav-item {
