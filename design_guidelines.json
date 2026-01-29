@@ -1,0 +1,177 @@
+{
+  "identity": {
+    "name": "E1",
+    "role": "Anti-AI Designer",
+    "principles": [
+      "Fusion over Imitation",
+      "Emotion First",
+      "Content is King",
+      "Zoom In",
+      "Negative Space",
+      "Contrast"
+    ]
+  },
+  "project": {
+    "name": "OnlyFans + TikTok Hybrid",
+    "aesthetic": "Midnight Velvet (Dark Mode Only)",
+    "target_audience": "Adult content consumers, creators, power users"
+  },
+  "typography": {
+    "headings": {
+      "font_family": "Manrope, sans-serif",
+      "weights": ["600", "800"],
+      "tracking": "-0.02em",
+      "usage": "Page titles, Creator names, Section headers"
+    },
+    "body": {
+      "font_family": "Inter, sans-serif",
+      "weights": ["400", "500"],
+      "tracking": "0",
+      "usage": "UI elements, descriptions, chat, terminal"
+    },
+    "mono": {
+      "font_family": "JetBrains Mono, monospace",
+      "usage": "CLI Terminal, Scraper logs, File paths"
+    }
+  },
+  "colors": {
+    "palette": {
+      "background": "#050505",
+      "foreground": "#EAEAEA",
+      "card": "#121212",
+      "card_foreground": "#FFFFFF",
+      "primary": "#E91E63",
+      "primary_foreground": "#FFFFFF",
+      "secondary": "#00F0FF",
+      "secondary_foreground": "#000000",
+      "muted": "#1A1A1A",
+      "muted_foreground": "#888888",
+      "accent": "#2A2A2A",
+      "accent_foreground": "#FFFFFF",
+      "destructive": "#FF2E2E",
+      "border": "#222222",
+      "input": "#1A1A1A",
+      "ring": "#E91E63"
+    },
+    "gradients": {
+      "primary_glow": "linear-gradient(135deg, #E91E63 0%, #9C1C44 100%)",
+      "secondary_glow": "linear-gradient(135deg, #00F0FF 0%, #0099FF 100%)",
+      "glass": "rgba(18, 18, 18, 0.7)"
+    }
+  },
+  "visual_enhancers": {
+    "radius": {
+      "default": "0.75rem",
+      "sm": "0.5rem",
+      "lg": "1rem",
+      "full": "9999px"
+    },
+    "shadows": {
+      "neon_pink": "0 0 20px rgba(233, 30, 99, 0.3)",
+      "neon_cyan": "0 0 20px rgba(0, 240, 255, 0.3)",
+      "card": "0 4px 24px rgba(0, 0, 0, 0.4)"
+    },
+    "glassmorphism": {
+      "backdrop_filter": "blur(16px)",
+      "background": "rgba(5, 5, 5, 0.7)",
+      "border": "1px solid rgba(255, 255, 255, 0.08)"
+    }
+  },
+  "layout_strategies": {
+    "feed": {
+      "type": "Snap Scroll",
+      "structure": "h-screen w-full overflow-y-scroll snap-y snap-mandatory",
+      "item": "h-screen w-full snap-start relative"
+    },
+    "profile": {
+      "type": "Parallax Header + Masonry",
+      "header_height": "40vh",
+      "grid_cols": "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+      "gap": "gap-1"
+    },
+    "dashboard": {
+      "type": "Bento Grid",
+      "density": "High",
+      "gap": "gap-4"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-primary text-white hover:bg-primary/90 shadow-neon_pink rounded-full px-8 py-3 font-bold transition-all hover:scale-105",
+      "secondary": "bg-secondary text-black hover:bg-secondary/90 shadow-neon_cyan rounded-full px-8 py-3 font-bold transition-all hover:scale-105",
+      "ghost": "hover:bg-white/10 text-white rounded-lg px-4 py-2",
+      "icon": "p-3 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 text-white transition-all"
+    },
+    "cards": {
+      "base": "bg-card border border-border rounded-xl overflow-hidden",
+      "hover": "hover:border-primary/50 transition-colors duration-300"
+    },
+    "inputs": {
+      "base": "bg-input border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-lg h-12 px-4 text-white placeholder:text-muted-foreground"
+    }
+  },
+  "image_urls": {
+    "creators": [
+      {
+        "url": "https://images.unsplash.com/photo-1653256170871-d0a26c41f49c",
+        "desc": "Neon portrait woman (Main Profile)",
+        "category": "profile_hero"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1618698937393-8d7bb5f2d341",
+        "desc": "Purple plaid shirt woman",
+        "category": "avatar"
+      }
+    ],
+    "feed_placeholders": [
+      {
+        "url": "https://images.unsplash.com/photo-1756664722134-0fd018cc2259",
+        "desc": "Dark hallway",
+        "category": "video_thumbnail"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1696694138288-d3c14bdd35f1",
+        "desc": "Dimly lit room",
+        "category": "video_thumbnail"
+      }
+    ],
+    "tech_backgrounds": [
+      {
+        "url": "https://images.unsplash.com/photo-1762279389006-43963a0cee55",
+        "desc": "Abstract neon lines",
+        "category": "scraper_bg"
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "UPDATE /app/frontend/src/index.css with the CSS variables defined in 'colors.palette'. Ensure they are HSL values if using Shadcn default utility classes, or Hex if overriding directly.",
+    "INSTALL 'lucide-react' for icons.",
+    "USE 'framer-motion' for the swipe feed animations and page transitions.",
+    "IMPLEMENT the 'Feed' as the home page (Mobile First).",
+    "CREATE a 'Scraper' page that looks like a terminal/dashboard hybrid using the 'mono' font.",
+    "ENSURE all images use 'object-cover' and have proper aspect ratios (9:16 for feed, 1:1 for avatars).",
+    "ADD 'data-testid' to all interactive elements.",
+    "DO NOT use gradients for backgrounds, only for text or subtle borders/glows.",
+    "USE 'sonner' for notifications (e.g., 'Download Started', 'Subscribed')."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy",
+    "Use glass-morphism effects with backdrop filters (12-24px blur)",
+    "You MUST NOT apply universal transition. Eg: transition: all. This results in breaking transforms. Always add transitions for specific interactive elements like button, input excluding transforms",
+    "You MUST NOT center align the app container, ie do not add .App { text-align: center; } in the css file. This disrupts the human natural reading flow of text",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style",
+    "NEVER: use AI assistant Emoji characters like 🤖🧠💭💡🔮🎯📚🎭🎬🎪🎉🎊🎁🎀🎂🍰🎈🎨🎰💰💵💳🏦💎🪙💸🤑📊📈📉💹🔢🏆🥇 etc for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations. Static = dead.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
+    "Main agent relies on these image URLs. Missing categories (especially sponsor logos) = main agent will use placeholder text which is FORBIDDEN",
+    "Prioritize using pre-existing components from src/components/ui when applicable",
+    "Create new components that match the style and conventions of existing components when needed",
+    "Examine existing components to understand the project's component patterns before creating new ones",
+    "Components MUST use named exports (export const ComponentName = ...)",
+    "Pages MUST use default exports (export default function PageName() {...})",
+    "Use 'sonner' for toasts. Sonner component are located in /app/src/components/ui/sonner.tsx"
+  ]
+}
