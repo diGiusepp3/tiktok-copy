@@ -1,0 +1,124 @@
+{
+  "identity": {
+    "name": "E1: The Anti-AI Designer",
+    "mission": "Create a 'Dark Mode' unrestricted AI chat interface that feels like a cyberpunk terminal or a black-ops tool.",
+    "principles": [
+      "Fusion over Imitation: Mix Terminal aesthetics with modern SaaS smoothness.",
+      "Emotion First: The user should feel like they are accessing something forbidden/powerful.",
+      "Content is King: The chat content is the hero; UI recedes into the void.",
+      "Contrast: High contrast neon against deep void black."
+    ]
+  },
+  "typography": {
+    "primary_font": "Manrope",
+    "secondary_font": "JetBrains Mono",
+    "logo_font": "JetBrains Mono",
+    "scale": {
+      "h1": "text-4xl md:text-5xl font-bold tracking-tight",
+      "h2": "text-3xl md:text-4xl font-semibold tracking-tight",
+      "h3": "text-2xl font-medium tracking-tight",
+      "body": "text-base leading-relaxed",
+      "small": "text-sm text-muted-foreground",
+      "code": "font-mono text-sm"
+    },
+    "imports": [
+      "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Manrope:wght@400;600;800&display=swap');"
+    ]
+  },
+  "colors": {
+    "theme": "dark",
+    "palette": {
+      "background": "#050505",
+      "foreground": "#E0E0E0",
+      "card": "#0A0A0A",
+      "card_foreground": "#FFFFFF",
+      "popover": "#0A0A0A",
+      "popover_foreground": "#FFFFFF",
+      "primary": "#00E5FF",
+      "primary_foreground": "#000000",
+      "secondary": "#1F1F1F",
+      "secondary_foreground": "#FFFFFF",
+      "muted": "#1A1A1A",
+      "muted_foreground": "#888888",
+      "accent": "#FF2E63",
+      "accent_foreground": "#FFFFFF",
+      "destructive": "#FF0000",
+      "destructive_foreground": "#FFFFFF",
+      "border": "#333333",
+      "input": "#1A1A1A",
+      "ring": "#00E5FF"
+    },
+    "gradients": {
+      "glow": "linear-gradient(180deg, rgba(0, 229, 255, 0.1) 0%, rgba(0, 0, 0, 0) 100%)"
+    }
+  },
+  "visual_enhancers": {
+    "borders": "1px solid #333333",
+    "radius": "0px",
+    "shadows": {
+      "neon": "0 0 10px rgba(0, 229, 255, 0.3)",
+      "void": "0 20px 50px rgba(0,0,0,0.8)"
+    },
+    "textures": {
+      "noise": "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E\")",
+      "scanlines": "linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))"
+    }
+  },
+  "layout": {
+    "grid_system": "grid-cols-1 md:grid-cols-[260px_1fr]",
+    "spacing": {
+      "container_padding": "p-4 md:p-6",
+      "section_gap": "gap-6"
+    },
+    "sidebar": {
+      "width": "w-[260px]",
+      "behavior": "hidden md:flex flex-col border-r border-border bg-card/50 backdrop-blur-xl"
+    },
+    "main_chat": {
+      "width": "max-w-3xl mx-auto w-full",
+      "alignment": "flex flex-col h-full"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-primary text-primary-foreground hover:bg-primary/90 rounded-none font-mono uppercase tracking-wider text-xs px-6 py-3 transition-all hover:shadow-[0_0_15px_rgba(0,229,255,0.4)]",
+      "secondary": "bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-none font-mono text-xs px-4 py-2 border border-border"
+    },
+    "inputs": {
+      "chat": "bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary rounded-none p-4 font-mono text-sm placeholder:text-muted-foreground/50 shadow-none transition-colors"
+    },
+    "chat_bubbles": {
+      "user": "bg-secondary text-secondary-foreground rounded-none rounded-tl-lg rounded-bl-lg rounded-br-lg p-4 max-w-[85%]",
+      "ai": "bg-transparent border border-border text-foreground rounded-none rounded-tr-lg rounded-br-lg rounded-bl-lg p-4 max-w-[85%] font-mono text-sm"
+    },
+    "cards": {
+      "base": "bg-card border border-border rounded-none p-6 hover:border-primary/50 transition-colors"
+    }
+  },
+  "image_urls": {
+    "backgrounds": [
+      {
+        "url": "https://images.unsplash.com/photo-1764258560300-2346b28b4e7c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODh8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGRhcmslMjBjeWJlciUyMG5ldHdvcmt8ZW58MHx8fHwxNzY5NjQ5ODMzfDA&ixlib=rb-4.1.0&q=85",
+        "description": "Abstract blue glowing lines for subtle background texture",
+        "category": "background"
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Implement a 'Terminal' aesthetic: Use sharp corners (rounded-none or rounded-sm), monospace fonts for data/labels, and high contrast.",
+    "Use the 'JetBrains Mono' font for all headers, code blocks, and UI labels (buttons, badges). Use 'Manrope' for long-form chat text for readability.",
+    "The Sidebar should feel like a system directory. Use simple list items with hover effects (bg-white/5).",
+    "The Main Chat input should feel like a command line. Add a '>' prefix icon.",
+    "Syntax Highlighting: Use a dark theme (e.g., 'dracula' or 'atom-one-dark') for code blocks.",
+    "Animations: Add a subtle 'fade-in' for new messages. No bouncy animations. Keep it mechanical and fast.",
+    "Use the provided background image with very low opacity (5-10%) mixed with the black background to add depth without distraction.",
+    "CRITICAL: Ensure the 'Export' feature is prominent but utilitarian (like a 'DOWNLOAD LOG' button).",
+    "CRITICAL: Dark Mode is the ONLY mode. Do not implement a light mode toggle."
+  ],
+  "universal_guidelines": [
+    "Do not use gradients for backgrounds unless it's a subtle glow.",
+    "Avoid rounded-xl or rounded-2xl. Stick to rounded-sm or rounded-none.",
+    "Use 'sonner' for toast notifications with a dark, bordered style.",
+    "Ensure all interactive elements have data-testid attributes."
+  ]
+}
